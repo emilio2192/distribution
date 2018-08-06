@@ -1,0 +1,3 @@
+# Referenced at /Users/Emilio/Documents/luciano/react-native-firebase-starter/android/app/build/intermediates/manifests/full/debug/AndroidManifest.xml:28
+-keep class com.invertase.rnfirebasestarter.MainApplication { <init>(...); }
+

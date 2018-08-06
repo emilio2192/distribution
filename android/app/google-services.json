@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "7158879285",
+    "firebase_url": "https://balmy-ocean-147902.firebaseio.com",
+    "project_id": "balmy-ocean-147902",
+    "storage_bucket": "balmy-ocean-147902.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7158879285:android:598684199913a06c",
+        "android_client_info": {
+          "package_name": "com.android.distribuidora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7158879285-npf4tpbb12vh8jhsnqdlf8f7stfcvfjj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAULIeDZibEevPA_1sGTy9vM27JbiAqxjk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
