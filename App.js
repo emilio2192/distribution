@@ -5,6 +5,23 @@ import firebase from 'react-native-firebase';
 
 import { SwitchNavigator } from 'react-navigation'
 
+import Loading from './views/loading'
+import Login from './views/login'
+import Login from './views/main'
+
+const App = SwitchNavigator(
+  {
+    Loading,
+    Login,
+    Main
+  },
+  {
+    initialRouteName: 'Login'
+  }
+)
+export default App
+
+/*
 export default class App extends React.Component {
   constructor() {
     super();
@@ -27,6 +44,7 @@ export default class App extends React.Component {
     );
   }
 }
+*/
 
 const styles = StyleSheet.create({
   container: {
