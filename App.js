@@ -11,14 +11,17 @@ import Login from './views/login';
 
 import Main from './views/main';
 
+import Delivery from './views/delivery'
+
 const App = SwitchNavigator(
   {
     Loading,
     Login,
-    Main
+    Main,
+    Delivery
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Loading'
   }
 )
 export default App
