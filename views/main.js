@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View,FlatList, ScrollView} from 'react-native';
 import firebase from 'react-native-firebase';
 
 export default class Main extends React.Component {
@@ -12,73 +12,84 @@ export default class Main extends React.Component {
       const { currentUser } = firebase.auth();
       this.setState({ currentUser });
       this.delivery = this.delivery.bind(this);
+      console.log(currentUser);
         
     }
 
     logOut() {
         const { currentUser } = firebase.auth().signOut()
     }
-    /*
-    delivery = () =>{
-        //this.props.navigation.navigate('Delivery', {"itemValue":this.props.value});
-        console.log(this.props.value);
-    }*/
 
     delivery(item){
         this.props.navigation.navigate('Delivery', { itemValue: item});
-        console.log(item);
     }
     render() {
         
         const { currentUser } = this.state
         return (
-            <View style={styles.container}>
-                <View>
-                <Text style={styles.info}>
-                Hi {currentUser && currentUser.email}! 
-                UID: {currentUser && currentUser.uid}
-                </Text>
-                <TouchableHighlight onPress={() => this.delivery("-LJLTs9taIiDpo4CzxtT")} underlayColor="white" value="KtWVYsG2L0h05LTUkyG">
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>Delivery</Text>
-                    </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={this.logOut} underlayColor="white">
+            // What if you add `height: 300` instead of `flex: 1`?
+        <View style={{flex: 1}}>
+            <View style={styles.menuContainer} >
+                <View style={{flex:3}} >
+                    <Text style={{marginTop:18, marginLeft:10}}>Bienvenido {currentUser && currentUser.email}</Text>
+                </View>
+                <View style={{flex:2}}>
+                    
+                    <TouchableHighlight onPress={this.logOut} underlayColor="white">
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>Log Out</Text>
                     </View>
                 </TouchableHighlight>
                 </View>
-               
+                
             </View>
+            <View style={{flex: 3, backgroundColor: 'skyblue'}} >
+                <Text>MAP CONTAINER </Text>
+            </View>
+            <View style={{flex: 3}}>
+                <ScrollView  >
+                    <FlatList
+                        data={[
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                        ]}
+                        renderItem={({item}) => <TouchableHighlight onPress={() => this.delivery(item.key)} style={styles.item} value={item.key}>
+                                                    <Text style={{fontSize:18}}>{item.key} </Text>
+                                                </TouchableHighlight>}
+                        />
+                </ScrollView>
+            </View>
+        </View>
         )
     }
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'skyblue',
-        alignItems: 'center'    
-    },
-    info:{
-        flex:2,
-        flexDirection:'column',
-        justifyContent:'center',
-        width:250,
-        height:200,
-        marginTop:100
-    },
-    button: {
-        marginBottom: 100,
-        width: 260,
-        alignItems: 'center',
-        backgroundColor: '#2196F3'
-      },
-      buttonText: {
-        padding: 20,
-        color: 'white'
-      }
+   menuContainer:{
+       flex:1, 
+       backgroundColor:'#E3E3E3',
+       flexDirection: 'row',
+       height:25
+   },
+   button: {
+    
+    width: 100,
+    alignItems: 'center',
+    backgroundColor: '#2196F3',
+    marginTop:12,
+    alignSelf: 'flex-end', 
+    paddingTop:10,
+    paddingBottom:10,
+    marginRight:10
+  },
+  item: {
+    padding: 10,
+    borderBottomWidth:1,
+    height: 44,
+  },
 })
