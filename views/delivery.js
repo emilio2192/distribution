@@ -5,63 +5,83 @@ export default class Delivery extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            data:{}
+            order:{
+                orderId:0,
+                deliveryDate:""
+            },
+            customer:{}
         }
 
     }
-   componentDidMount() {
-        const itemValue = this.props.navigation.getParam("itemValue");
-        var ref = firebase.database().ref('/orders/' + itemValue);
-        ref.on('value', (e) =>{
-            console.log(e.val());
-            var rows = [];
-            if ( e && e.val() && e.val().map ) {
-                e.val().map((v) => rows.push ( v ));
-            }
-            //var ds = this.state.dataSource.cloneWithRows(rows);
-            console.log(rows);
+    
+    getCustomerDetail(order){
+        console.log("entra a la funcion");
+        firebase.database().ref('/customers/'+order.customerId).once('value',(customerDetail) =>{
+            console.log("si entra");
             this.setState({
-                data: e.val()
-            });
-        })
+                order:order,
+                customer:customerDetail.val()
+            })
+        });
+        
+    }
+    async componentDidMount() {
+        const itemValue = this.props.navigation.getParam("itemValue");
+        try{
+
+        let customer;
+        let orderDetail;
+        console.log('hola');
+        const ref =firebase.database().ref('/orders/'+ itemValue);
+        console.log(ref);
+        ref.on('value', (data)=>{
+            console.log("por aqui");
+            this.setState({order:data.val()});
+            this.getCustomerDetail(data.val());
+            orderDetail = data.val();
+            
+        },(error)=>{
+            console.log(error.toString())
+        });
+        
+        console.log(this.state);
+        }catch(err){
+            
+            console.log(err.toString());
+        }
+       
     }
 
     goMain(item){
         this.props.navigation.navigate('Main');
     }
     
+    finishDelivery(){}
+
     render() {
-        /*
-        var elements = [];
-        const appRef = firebase.database().ref();
         
-       const itemValue = this.props.navigation.getParam("itemValue");
-        const otherData = firebase.database().ref('/orders/' + itemValue).once('value').then(function(snapshot) {
-            //console.log(snapshot);
-            return snapshot.toJSON();
-
-        });
-        
-
-        console.log('lksadjasljda');
-        console.log(otherData);
-
-
-        */
-        console.log(this.state);
+        //console.log(this.state);
         return (
-            <View style={{flexDirection:'row'}}>
-                <View style={{flex:1}}>
-                <Button
-          title="Go back"
-          onPress={() => this.goMain()}
-        />
+            <View style={{flex:1}}>
+                <View style={{flex:1,backgroundColor:'red', height:60}}>
+                    <Button
+                    title="Go back"
+                    onPress={() => this.goMain()}
+                    />
                 </View>
-                <View style={{flex:1}}>
-                    <Text>Order ID: {this.state.data.orderId}</Text>
+                <View style={{flex:3,flexDirection:'row'}}>
+                    <View style={{flex:1}}>
+                        <Text>Order ID: {this.state.order.orderId}</Text>
+                    </View>
+                    <View style={{flex:1}}>
+                        <Text>Delivery Date: {this.state.order.deliveryDate}</Text>
+                    </View>
+                    <View style={{flex:2}}>
+                        <Text>Customer {JSON.stringify(this.state.customer)}</Text>
+                    </View>
                 </View>
-                <View style={{flex:1}}>
-                    <Text>Delivery Date: {this.state.data.deliveryDate}</Text>
+                <View style={{flex:5}}>
+                    <Button title="Terminar Orden" onPress={() => this.finishDelivery()} />
                 </View>
             </View>
             

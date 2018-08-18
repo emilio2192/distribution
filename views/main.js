@@ -34,12 +34,11 @@ export default class Main extends React.Component {
                     <Text style={{marginTop:18, marginLeft:10}}>Bienvenido {currentUser && currentUser.email}</Text>
                 </View>
                 <View style={{flex:2}}>
-                    
                     <TouchableHighlight onPress={this.logOut} underlayColor="white">
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>Log Out</Text>
-                    </View>
-                </TouchableHighlight>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>Log Out</Text>
+                        </View>
+                    </TouchableHighlight>
                 </View>
                 
             </View>
