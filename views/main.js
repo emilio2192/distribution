@@ -49,14 +49,13 @@ export default class Main extends React.Component {
                 <ScrollView  >
                     <FlatList
                         data={[
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
-                            {key: '-LJNLtYy2EFNNVD1dlxR'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
+                            {key: '-LJMeC0QddrnIjQKg5h8'},
                         ]}
                         renderItem={({item}) => <TouchableHighlight onPress={() => this.delivery(item.key)} style={styles.item} value={item.key}>
                                                     <Text style={{fontSize:18}}>{item.key} </Text>

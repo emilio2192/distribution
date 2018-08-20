@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet, TouchableHighlight, Button, ScrollView, FlatList , Switch, Alert,TextInput} from 'react-native';
-import ToggleSwitch from 'toggle-switch-react-native';
 import firebase from 'react-native-firebase';
+
+import NumericInput,{ calcSize } from 'react-native-numeric-input'
 export default class Delivery extends React.Component {
     constructor(props){
         super(props);
@@ -10,15 +11,20 @@ export default class Delivery extends React.Component {
                 orderId:999999999,
                 deliveryDate:"31-12-2018"
             },
-            customer:{}
+            customer:{},
+            cambioHuevo:0,
+            rejected:false
         }
         const {value} = false;
+        const {valueChangeEgg} = 0;
+        const {products} = [];
+        const {db} = firebase.database();
     }
     ShowAlert = (value) =>{
 
         this.setState({
       
-          SwitchOnValueHolder: value
+          rejected: value
         })
       
         if(value == true)
@@ -34,9 +40,10 @@ export default class Delivery extends React.Component {
         }
       
       }
-   /* getCustomerDetail(order){
+      getCustomerDetail(order){
         console.log("entra a la funcion");
         firebase.database().ref('/customers/'+order.customerId).once('value',(customerDetail) =>{
+
             this.setState({
                 order:order,
                 customer:customerDetail.val()
@@ -46,34 +53,52 @@ export default class Delivery extends React.Component {
     }
     async componentDidMount() {
         const itemValue = this.props.navigation.getParam("itemValue");
+        this.setState({idOrder:itemValue});
         try{
+
+        let customer;
+        let orderDetail;
         const ref =firebase.database().ref('/orders/'+ itemValue);
-        console.log(ref);
         ref.on('value', (data)=>{
+            console.log("por aqui");
             this.setState({order:data.val()});
             this.getCustomerDetail(data.val());
             orderDetail = data.val();
+            
         },(error)=>{
             console.log(error.toString())
         });
-        
         
         }catch(err){
             
             console.log(err.toString());
         }
        
-    }*/
+    }
 
     goMain(item){
         this.props.navigation.navigate('Main');
     }
     
-    finishDelivery(){}
+    finishDelivery(){
+        objOrder = this.state.order;
+        objOrder.deliveryReason=this.state.reason;
+        objOrder.rejected=this.state.rejected;
+        objOrder.changeEggs=this.state.cambioHuevo;
+        objOrder.status="finalizada";
+   
+        firebase.database().ref('/orders/'+ this.state.idOrder).set(objOrder,function(error){
+            if(error){
+                console.log('data is not save');
+            }else{
+                console.log(error);
+            }
+        })
+    }
 
     render() {
         
-        console.log(this.state);
+        
         return (
             <View style={styles.MainContainer}>
                 <View style={{width:450, height:50}}>
@@ -92,11 +117,11 @@ export default class Delivery extends React.Component {
                     <View style={styles.col1}>
                         <Text>
                             <Text style={styles.label}>Cliente:</Text> 
-                            <Text style={styles.simpleText}>Tienda la bendicion</Text>
+                            <Text style={styles.simpleText}>sadsad</Text>
                         </Text>
                     </View>
                 </View>
-                <View style={styles.rowView}>
+                <View style={styles.rowInfo}>
                     <View style={styles.col1}>
                         <Text>
                             <Text style={styles.label}>Hora de entrega:</Text> 
@@ -104,30 +129,22 @@ export default class Delivery extends React.Component {
                         </Text>
                     </View>
                     <View style={styles.col1}>
-                        <Text>
+                        <Text >
                             <Text style={styles.label}>Tipo de Compra:</Text> 
-                            <Text style={styles.simpleText}>Credito</Text>
+                            <Text style={styles.simpleText}>{this.state.order.type}</Text>
                         </Text>
                     </View>
+                    <View style={{width:450, height:50}}></View>
                 </View>
                 <View style={{width:450,height:250}}>
                 <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>Productos:</Text>
                 <ScrollView  >
                     <FlatList
-                        data={[
-                            {name: '1 caja de huevos grande', cantidad:10},
-                            {name: '1 docena de huevos grande', cantidad:10},
-                            {name: '1 weasdasd de huevos grande', cantidad:10},
-                            {name: '1 docena de asdasdas grande', cantidad:10},
-                            {name: '1 fds;lfkdslfj de huevos grande', cantidad:10},
-                            {name: '1 caja de huevos grande', cantidad:10},
-                            {name: '1 docena de huevos grande', cantidad:10},
-                            {name: '1 weasdasd de huevos grande', cantidad:10},
-                            {name: '1 docena de asdasdas grande', cantidad:10},
-                            {name: '1 fds;lfkdslfj de huevos grande', cantidad:10},
-                        ]}
+                        data={
+                            this.state.order.products
+                        }
                         renderItem={({item}) => <Text style={{fontSize:18}}>
-                            <Text style={styles.label}>Cantidad: {item.cantidad} - </Text>
+                            <Text style={styles.label}>Cantidad: {item.quantity} - </Text>
 
                             {item.name} 
                         </Text>}
@@ -142,7 +159,7 @@ export default class Delivery extends React.Component {
                       <Switch
                         onValueChange={(value) => this.ShowAlert(value)}
                         style={{marginBottom: 10}}
-                        value={this.state.SwitchOnValueHolder} />
+                        value={this.state.rejected} />
                         
                     </View>
                 </View>
@@ -154,6 +171,23 @@ export default class Delivery extends React.Component {
                             placeholder="Escribe aqui la razon del rechazo"
                             onChangeText={(text) => this.setState({reason:text})}
                         />
+                </View>
+                <View style={{width:450, height:100}}>
+                    <Text style={styles.label}>
+                        Cambios de huevo</Text>
+                        <NumericInput 
+                        value={this.state.cambioHuevo} 
+                        onChange={valueChangeEgg => this.setState({cambioHuevo:valueChangeEgg})} 
+                        totalWidth={150} 
+                        totalHeight={30} 
+                        iconSize={25}
+                        step={1}
+                        valueType='integer'
+                        rounded 
+                        textColor='#2C3E50' 
+                        iconStyle={{ color: 'white' }} 
+                        rightButtonBackgroundColor='#138D75' 
+                        leftButtonBackgroundColor='#16A085'/>
                 </View>
 
                 <View style={{flex:5, position: 'absolute', left: 0, right: 0, bottom: 0}}>
@@ -169,13 +203,18 @@ const styles = StyleSheet.create({
     MainContainer:{
         flex:1,
     },
+    rowInfo:{
+        width:450,
+        height:20,
+        flexDirection:'row',
+    },
     rowView:{
         width:450,
         height:20,
         flexDirection:'row'
     },
     col1:{
-        width:225,
+        width:200,
         height:20,
         marginBottom:10
     },
