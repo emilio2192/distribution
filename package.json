@@ -26,6 +26,7 @@
     "react-native": "^0.55.3",
     "react-native-firebase": "^4.3.6",
     "react-native-maps": "^0.21.0",
-    "react-navigation": "^2.11.2"
+    "react-navigation": "^2.11.2",
+    "toggle-switch-react-native": "^1.0.0"
   }
 }
