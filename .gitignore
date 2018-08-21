@@ -64,3 +64,7 @@ typings/
 android/app/build/*
 
 /*/build/
+
+
+ android/app/build
+ android/app/build/
