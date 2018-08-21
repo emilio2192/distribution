@@ -61,4 +61,6 @@ typings/
 .next
 
 
-android/app/build/intermediates/incremental/*
+android/app/build/*
+
+/*/build/
