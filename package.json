@@ -25,12 +25,9 @@
     "react": "^16.3.2",
     "react-native": "^0.55.3",
     "react-native-firebase": "^4.3.6",
-<<<<<<< HEAD
     "react-native-numeric-input": "^1.3.1",
     "react-native-vector-icons": "^5.0.0",
-=======
     "react-native-maps": "^0.21.0",
->>>>>>> 7be8667e47e4f33e4eb4f3e10bc7210c010d4758
     "react-navigation": "^2.11.2",
     "toggle-switch-react-native": "^1.0.0"
   }
